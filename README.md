@@ -8,7 +8,6 @@
 >      define("DB_NAME", "DB_NAME_HERE");
 >      define("DB_PASSWORD", "DB_PASSWORD_HERE");
 >      define("ENV", "local || prod || dev");
->
 >      define("SITE_URL", "SITE_URL_HERE");
 
 3. Run the following command in the terminal    

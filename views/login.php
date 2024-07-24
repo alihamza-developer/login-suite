@@ -21,7 +21,7 @@ if (isset($_GET['success'])) {
     <div class="col-md-5 login-container">
         <form action="authorize" method="POST" class="js-form own-target w-100">
             <div class="content-center flex-column">
-                <h2 class="heading text-success">Sign In to <?= SITE_NAME ?></h2>
+                <h2 class="heading ">Sign In to <?= SITE_NAME ?></h2>
                 <p class="more mb-4">OR Use email account</p>
             </div>
 
