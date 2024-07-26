@@ -46,6 +46,7 @@ class IconsManager
 
             $content = file_get_contents($tmp_name);
             $content = $this->remove_commented_code($content);
+            $exist = $this->db->select_one("icons", "id", ['prefix' => $prefix]);
 
             $saved = $this->db->save('icons', [
                 'prefix' => $prefix,
@@ -56,12 +57,12 @@ class IconsManager
             ]);
 
 
-            $exist = $this->db->select_one("icons", "id", ['prefix' => $prefix]);
             if ($exist) {
                 $updated++;
                 continue;
+            } else if ($saved) {
+                $add++;
             }
-            if ($saved) $add++;
         }
 
         $this->load(); // Load Icons in site

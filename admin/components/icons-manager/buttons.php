@@ -5,7 +5,7 @@
 
     <label class="btn btn-sm">
         <?= svg_icon("import")  ?> Import
-        <input type=" file" class="d-none jx-req-element" name="file" data-target="icons-manager" data-submit='<?= json_encode([
+        <input type="file" class="d-none jx-req-element" name="file" data-target="icons-manager" data-submit='<?= json_encode([
                                                                                                                     'importIcons' => true,
                                                                                                                 ]) ?>' accept=".json">
     </label>

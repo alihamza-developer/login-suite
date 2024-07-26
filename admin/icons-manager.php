@@ -55,7 +55,7 @@ require_once "includes/head.php";
                         <span class="single-icon" title="Edit Icon" data-toggle="modal" data-target="#editIconModal"><?= svg_icon("edit") ?></span>
 
                         <div class="dropdown">
-                            <span class="single-icon" data-toggle="dropdown"><?= svg_icon("vertical-dots") ?></span>
+                            <span data-toggle="dropdown"><?= svg_icon("vertical-dots") ?></span>
                             <div class="dropdown-menu">
 
                                 <div class="dropdown-item download-icon">
