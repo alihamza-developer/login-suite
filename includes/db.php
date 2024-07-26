@@ -4,8 +4,6 @@ if (!defined('DIR')) define('DIR', './');
 if (!defined('_DIR_')) define('_DIR_', DIR);
 require_once("inc/database.php");
 require_once "Classes/Functions.php";
-require_once "Classes/Categories.php";
-require_once "Classes/IconsManager.php";
 require_once "Classes/Extension.php";
 require_once "Classes/Emails.php";
 require_once _DIR_ . "vendor/autoload.php";

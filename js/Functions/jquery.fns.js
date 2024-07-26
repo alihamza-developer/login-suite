@@ -356,6 +356,10 @@ $(document).on("click", '[data-toggle="addHTML"]', function () {
 $(document).on("show.bs.modal", ".modal[data-callback]", function (e) {
     fn._handle(this, e, 'callback');
 });
+
+$(document).ready(function () {
+    $('input.focused').focus();
+});
 // #region Preview image file from file input
 $(document).on("change", ".file-preview-input", function () {
     let target = $(this).dataVal("target");

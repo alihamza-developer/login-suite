@@ -52,7 +52,7 @@ add_assets_template("tinyMCE");
                                 <td class="d-none" data-name="body" data-value="<?= htmlspecialchars($body); ?>"><?= $body; ?></td>
                                 <td data-name="key" data-value="<?= $key; ?>" data-title="<?= $email['title']; ?>">
                                     <a href="#" class="text-success editTableInfo" title="Éditer" data-toggle="popup" data-target="#updateEmailTemplate">
-                                        <?= svg_icon("pencil-alt")  ?>
+                                        <?= svg_icon("edit")  ?>
                                     </a>
                                 </td>
                             </tr>

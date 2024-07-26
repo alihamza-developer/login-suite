@@ -360,3 +360,60 @@ function downloadFile(name, url) {
     a.click();
     document.body.removeChild(a);
 }
+
+
+// Copy Text
+function copyText(text) {
+    if (!navigator.clipboard) {
+        // Fallback to older method
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.top = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+            const successful = document.execCommand("copy");
+            if (successful) notify("Content Copied");
+
+
+        } catch (error) {
+            console.error("Failed to copy text to clipboard:", error);
+        }
+
+        document.body.removeChild(textArea);
+    } else {
+        // Use the modern clipboard API
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                notify("Content Copied");
+            })
+            .catch((error) => {
+
+            });
+    }
+}
+
+
+//#region Notify
+
+let notifyId = 1;
+
+function notify(msg, type = '') {
+    $(".notify-toasts").append('<div class="single-toast ' + type + '" id="notify-' + notifyId + '">' + msg + '</div>');
+    notifyId++;
+    setTimeout(function () {
+        $(".notify-toasts #notify-" + notifyId).remove();
+    }, 4000)
+}
+
+function notifyError(err = 'Something went wrong! Please try again') {
+    notify(err, "error");
+}
+
+
+$("body").append(`<div class="notify-toasts"></div>`);
+
+//#endregion Notify 
+

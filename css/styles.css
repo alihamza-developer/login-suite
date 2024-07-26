@@ -289,13 +289,21 @@ body {
     }
 }
 
+.dropdown-item.active,
+.dropdown-item:active {
+    background: #e9ecef;
+    color: #212529 !important;
+}
+
 .dropdown-menu .dropdown-item {
     display: flex;
     padding: 8px 15px;
+    align-items: center;
 }
 
 .dropdown-menu .dropdown-item svg {
     display: inline-block;
+    margin-right: 5px;
 }
 
 .dropdown-menu .dropdown-item .text {

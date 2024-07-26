@@ -4,7 +4,7 @@ require_once('../includes/db.php');
 require_once _DIR_ . "includes/Classes/Delete.php";
 
 $_delete->set([
-	'user' => 'users'
+	'user' => 'users',
 ]);
 
 $_delete->init();

@@ -1,45 +1,20 @@
 <?php
 define('DIR', '../');
 require_once('../includes/db.php');
+require_once _DIR_ . "includes/Classes/IconsManager.php";
 
 // Add Icon
 if (isset($_POST['addIcon'])) {
-    $category_id = _POST('category_id', ['default' => '']);
     $files = isset($_FILES['file']) ? $_FILES['file'] : [];
 
     if (!count($files)) returnError("Please select at least one file");
 
-    $saved = $icons_manager->add_icons([
-        'icons' => $files,
-        'category_id' => $category_id
-    ]);
+    $saved = $icons_manager->add_icons($files);
 
-    // Load Icons to Site
-    $icons_manager->load_icons_to_site();
+    $saved['redirect'] = "";
 
     echo json_encode($saved);
 }
-
-
-// Add Category
-if (isset($_POST['saveCategory'])) {
-    $name = _POST('name');
-    $id = _POST('id', ['default' => false]);
-
-    $saved = $icons_manager->_category->save([
-        'name' => $name,
-        'type' => $icons_manager->category_type,
-    ]);
-    echo json_encode($saved);
-}
-
-
-// Load Icons to Site
-if (isset($_POST['loadIconsToSite'])) {
-    $icons_manager->load_icons_to_site();
-    returnSuccess("Icons loaded successfully!");
-}
-
 
 // Export Icons 
 if (isset($_POST['exportIcons'])) {
@@ -59,14 +34,32 @@ if (isset($_POST['exportIcons'])) {
     ]);
 }
 
-
 // Import Icons
 if (isset($_POST['importIcons'])) {
     $file = isset($_FILES['file']) ? $_FILES['file'] : [];
-    $category_id = _POST('category_id');
     if (!count($file)) returnError("Please select a file to import");
 
-    $res = $icons_manager->import_icons($file, $category_id);
+    $res = $icons_manager->import_icons($file);
 
     echo json_encode($res);
+}
+
+// Edit Icon
+if (isset($_POST['editIcon'])) {
+
+    $id = _POST("id");
+    $name = _POST("name");
+    $prefix = _POST("prefix");
+    $content = _POST("content");
+
+
+    $res = $db->update("icons", [
+        "name" => $name,
+        "prefix" => $prefix,
+        "content" => $content
+    ], ['id' => $id]);
+
+    $icons_manager->load();
+    if ($res) returnSuccess("Icon updated successfully", ['redirect' => ""]);
+    returnError("Failed to update icon");
 }

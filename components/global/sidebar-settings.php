@@ -16,7 +16,7 @@ define('SIDEBAR_OPTIONS_ADMIN', [
     [
         'title' => "Email Templates",
         'description' => "Manage all the email templates",
-        'icon' => 'envelope',
+        'icon' => 'mail',
         'url' => 'email-templates',
     ],
     [
@@ -28,7 +28,7 @@ define('SIDEBAR_OPTIONS_ADMIN', [
     [
         'title' => "Profile Setting",
         'description' => "Manage your profile settings",
-        'icon' => 'cog',
+        'icon' => 'settings',
         'url' => _DIR_ . 'user/setting',
     ],
 ]);
@@ -44,7 +44,7 @@ define('SIDEBAR_OPTIONS_USER', [
     [
         'title' => "Profile Setting",
         'description' => "Manage your profile settings",
-        'icon' => 'cog',
+        'icon' => 'settings',
         'url' => _DIR_ . 'user/setting',
     ],
 ]);

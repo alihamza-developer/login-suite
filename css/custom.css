@@ -201,9 +201,9 @@ select:focus {
 }
 
 .label {
-    font-size: 15px;
+    font-size: 12px;
     color: #333;
-    font-weight: 500;
+    font-weight: bold;
     display: inline-block;
     margin-bottom: 5px;
     font-family: var(--fontFamily);
@@ -1121,13 +1121,79 @@ span>.loader {
 /* #endregion Popup Window */
 
 
-/* #region Tabs */
-.tab-content .tab-pane {
-    padding: 15px 5px;
-}
-
-/* #endregion Tabs */
 
 .js-form {
     width: 100%;
 }
+
+
+/* #region Notify */
+
+.notify-toasts {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 250px;
+    pointer-events: none;
+    z-index: 999999;
+}
+
+.notify-toasts .single-toast {
+    background-color: #000;
+    margin: 5px 0;
+    color: #fff;
+    padding: 15px;
+    font-family: sans-serif;
+    width: 100%;
+    opacity: 0;
+    z-index: 999999;
+    -webkit-animation: notify 4s linear;
+    -moz-animation: notify 4s linear;
+    -o-animation: notify 4s linear;
+    animation: notify 3s linear;
+}
+
+@keyframes notify {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    20%,
+    80% {
+        transform: translateX(0);
+        opacity: .9;
+    }
+
+    90% {
+        opacity: .5;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.half-opacity {
+    opacity: 0.5;
+}
+
+.tc-copy-btn-div {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    cursor: pointer;
+    z-index: 99;
+    width: 14px;
+    color: white;
+}
+
+.h-fit {
+    height: fit-content !important;
+}
+
+
+/* notify toast  */
+
+/* #endregion Notify */
