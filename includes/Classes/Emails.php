@@ -123,7 +123,8 @@ class Emails extends Database
             if (!$email_template) return;
 
             $subject = $email_template['subject'];
-            $body = htmlspecialchars_decode($email_template['body']);
+            $body = html_entity_decode(htmlspecialchars_decode($email_template['body']));
+
             $vars = arr_val($options, 'vars', []);
             $vars = array_merge($vars, [
                 'site_name' => SITE_NAME,
@@ -141,11 +142,10 @@ class Emails extends Database
             // Read template file
             $data = $this->readTemplateFile($body, $vars);
             $subject_ = $this->replace_email_vars($subject, $vars);
+
             // Return Html
             if (arr_val($options, 'return_html', false))
                 return $data;
-            // echo $data;
-            // exit;
 
             // Send Email
             return $this->sendEmailTo([
@@ -191,8 +191,7 @@ class Emails extends Database
         ];
 
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        print_r($response->success());
-        exit;
+        return true;
     }
 }
 $_email = new Emails();

@@ -220,7 +220,7 @@ function getFileIcon(fileType) {
 function refreshFns() {
     bsTooltips(); // bootstrap tooltips & Popover
     fancyCheckbox(); // Checkbox
-    intiTinymce(); // Tinymce
+    initTinymce(); // Tinymce
     initJxReqElements('.jx-req-element'); // Jx Elements
 }
 $(document).ready(refreshFns);
@@ -267,57 +267,56 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function intiTinymce() {
-    var emailBodyConfig = {
+// Init TinyMce 
+function initTinymce() {
+    if (!window.tinymce) return false;
+
+    const CONFIG = {
         selector: '.tinymce-inline-editor',
-        menubar: false,
-        inline: true,
-        plugins: [
-            "autolink lists link image anchor code",
-            "media paste",
-            "table",
-            "emoticons autoresize"
-        ],
-        toolbar: [
-            'bold italic underline | fontselect fontsizeselect | link',
-            'forecolor backcolor | alignleft aligncenter alignright alignfull | numlist bullist outdent indent | emoticons | code',
-        ]
+        plugins: 'anchor autolink emoticons  link lists mentions',
+        toolbar: ' bold italic underline numlist bullist undo redo | fontfamily fontsize | strikethrough | link | emoticons',
+        tinycomments_mode: 'embedded',
+        content_style:
+            "@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); body { font-family: Poppins, sans-serif; }",
     };
-    if (window.tinymce) {
-        let tinymceId = 0;
-        $(".tinymce-inline-editor").each(function () {
-            if ($(this).hasClass("mce-content-body"))
-                return true;
-            tinymceId++;
-            let selector = $(this).getPath(),
-                inputName = $(this).dataVal("name"),
-                value = $(this).html(),
-                $this = $(this),
-                inputClass = $(this).dataVal("input-class", "");
-            emailBodyConfig.hidden_input = inputName === false ? true : false;
-            // Append input
-            if (inputName) {
-                selector = "tinymceEditor" + tinymceId;
-                $(this).attr("id", selector);
-                selector = `#${selector}`;
-                $(`<input type="hidden" name="${inputName}" class="tinymce-hidden-input ${inputClass}" data-edit-trigger="change" data-target="${selector}">`).insertAfter($(this));
-                let $input = $(selector).parent().find(`.tinymce-hidden-input[data-target="${selector}"][name="${inputName}"]`);
-                $input.val(value);
-                emailBodyConfig.setup = function (ed) {
-                    ed.on("change", function (e) {
-                        $input.val(ed.getContent());
-                    });
-                }
+
+
+    CONFIG.setup = (editor) => {
+        const listener = (editor) => {
+            let id = editor.id,
+                $textarea = $(`.tinymce-inline-editor#${id}`),
+                trigger = $textarea.dataVal('trigger');
+            if (trigger) {
+                let content = editor.getContent();
+                $textarea.val(content);
+                $textarea.trigger(trigger);
             }
-            emailBodyConfig.selector = selector;
-            tinymce.init(emailBodyConfig);
-        });
-        $('.tinymce-hidden-input').on('change', function () {
-            let target = $(this).data("target").replace('#', ''),
-                editor = tinymce.editors[target].targetElm;
-            editor.innerHTML = $(this).val();
+
+        }
+
+        editor.on('change', () => listener(editor));
+        editor.on('input', () => listener(editor));
+        editor.on("init", (e) => {
+            let editor = e.target,
+                items = Array.from($('.tox-tinymce-aux'));
+            items.shift();
+
+            items.map(item => {
+                $(item).remove(); // Remove Tinymce extra elements
+            });
+            $('.tox-statusbar__branding').remove();
+
+
+            $element = $(editor.targetElm);
+            if ($element.hasAttr("data-height")) {
+                let height = $element.dataVal("height");
+                $(editor.editorContainer).css("height", height);
+            }
+
         });
     }
+
+    tinymce.init(CONFIG);
 }
 
 //#region Popup Window
@@ -331,7 +330,7 @@ $(document).on("click", ".popup-window-btn,[data-toggle='popup']", function (e) 
         target: $(target),
         relatedTarget: $(this)
     };
-    tc.fn._handle($(target), event);
+    fn._handle($(target), event);
 });
 // Remove Popup Window
 $(document).on("click", ".popup-window", function (e) {

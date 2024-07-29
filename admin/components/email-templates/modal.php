@@ -19,7 +19,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <span class="label">Body</span>
-                                <div class="tinymce-inline-editor" style="min-height: 200px; overflow: auto" id="tinymceEditor1"></div>
+                                <textarea data-height="600px" class="tinymce-inline-editor" name="body"></textarea>
                             </div>
                         </div>
 

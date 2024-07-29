@@ -49,9 +49,10 @@ add_assets_template("tinyMCE");
                                 </td>
                                 <td class="ws"><?= $email['title']; ?></td>
                                 <td class="ws" data-name="subject" data-value="<?= $subject; ?>"><?= $subject; ?></td>
-                                <td class="d-none" data-name="body" data-value="<?= htmlspecialchars($body); ?>"><?= $body; ?></td>
-                                <td data-name="key" data-value="<?= $key; ?>" data-title="<?= $email['title']; ?>">
-                                    <a href="#" class="text-success editTableInfo" title="Éditer" data-toggle="popup" data-target="#updateEmailTemplate">
+                                <td class="d-none" data-name="body" data-value="<?= htmlspecialchars($body); ?>"></td>
+
+                                <td data-name="key" data-value="<?= $key; ?>">
+                                    <a href="#" class="text-success editTableInfo" title="Edit Template" data-toggle="popup" data-target="#updateEmailTemplate">
                                         <?= svg_icon("edit")  ?>
                                     </a>
                                 </td>

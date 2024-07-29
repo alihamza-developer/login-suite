@@ -7,7 +7,7 @@ require_once "env.php";
 
 define("SITE_NAME", "LOGIN SYSTEM");
 define("SITE_PHONE", "+92 302 4018721");
-define("SITE_EMAIL", "alihamza6545640.com");
+define("SITE_EMAIL", "alihamza6545640@gmail.com");
 define("CONTACT_EMAIL", SITE_EMAIL);
 
 

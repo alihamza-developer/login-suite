@@ -344,69 +344,73 @@ $(document).on("click", ".editTableInfo", function (e) {
     if (!this.hasAttribute("data-target")) return false;
     let target = $($(this).attr("data-target"));
     if (target.length < 1) return false;
+
     let parent = $(this).parents("tr").first(),
         inputs = target.find("input[name],textarea[name], select[name], .tinymce-inline-editor, .multi-select");
+    l(inputs)
     inputs.each(function () {
         let name = "";
-        if ($(this).tagName() == "div") {
-            name = $(this).attr("id");
-        } else {
-            name = $(this).attr("name");
-        }
-        let td = parent.find('td[data-name="' + name + '"]');
-        if (td.length > 0) {
-            let value = td.attr('data-value');
+        if ($(this).tagName() == "div") name = $(this).attr("id");
+        else name = $(this).attr("name");
 
-            if ($(this).hasClass("multi-select")) {
-                let values = JSON.parse(value);
-                target.find(`.single-item input`).each(function () {
-                    $(this).prop("checked", values.includes($(this).val()));
-                });
-            } else {
-                if ($(this).tagName() == "div") {
-                    $(this).html(value);
-                } else {
-                    if ($(this).attr("type") == "datetime-local") {
-                        value = value.replace(" ", "T");
-                        value = value.substr(0, value.length - 2) + "00";
-                        //value = removeSeconds(value);
-                    }
-                    if ($(this).attr("type") !== "file") {
-                        if ($(this).attr("type") == "checkbox") {
-                            if (value == "true") {
-                                $(this).prop("checked", true);
-                            } else {
-                                $(this).prop("checked", false);
-                            }
-                        } else if ($(this).get(0).tagName === 'SELECT') {
-                            if ($(this).hasAttr("multiple")) {
-                                if (isJson(value)) {
-                                    value = JSON.parse(value);
-                                } else {
-                                    value = value.split(",");
-                                }
-                            } else {
-                                value = [value];
-                            }
-                            $(this).find("option").each(function () {
-                                $(this).prop("selected", value.includes($(this).val()));
-                            });
-                            if ($(this).hasClass("ss-select")) {
-                                $(this).get(0).dispatchEvent(new Event("change"));
-                            }
-                        } else if ($(this).attr("type") === "radio") {
-                            if ($(this).val() == value) {
-                                $(this).prop('checked', true);
-                            }
-                        } else $(this).val(value);
-                    }
+        let td = parent.find(`td[data-name="${name}"]`);
+        if (!td.length) return false;
+        let value = td.attr('data-value');
+
+
+
+        // If is input is tinymce
+        if ($(this).hasClass("tinymce-inline-editor") && window.tinymce) {
+            let editor = tinymce.get($(this).attr("id"));
+            l("ok", editor)
+            if (editor) editor.setContent(value);
+        }
+
+        if ($(this).hasClass("multi-select")) {
+            let values = JSON.parse(value);
+            target.find(`.single-item input`).each(function () {
+                $(this).prop("checked", values.includes($(this).val()));
+            });
+        } else {
+            if ($(this).tagName() == "div") $(this).html(value);
+            else {
+
+                // If input type is datetime-local
+                if ($(this).attr("type") == "datetime-local") {
+                    value = value.replace(" ", "T");
+                    value = value.substr(0, value.length - 2) + "00";
+                }
+
+                if ($(this).attr("type") !== "file") {
+
+                    if ($(this).attr("type") == "checkbox") {
+                        $(this).prop("checked", value == "true");
+                    } else if ($(this).get(0).tagName === 'SELECT') {
+
+                        let isMultiple = $(this).hasAttr("multiple");
+
+                        // If multiple select
+                        if (isMultiple) value = isJson(value) ? JSON.parse(value) : value.split(",");
+                        else value = [value];
+
+                        $(this).find("option").each(function () {
+                            $(this).prop("selected", value.includes($(this).val()));
+                        });
+
+                        if ($(this).hasClass("ss-select"))
+                            $(this).get(0).dispatchEvent(new Event("change"));
+
+                    } else if ($(this).attr("type") === "radio") {
+                        if ($(this).val() == value) $(this).prop('checked', true);
+
+                    } else $(this).val(value);
                 }
             }
+        }
 
 
-            if ($(this).hasAttr("data-tag")) {
-                Tags.loadTagsFromValue($(this).parents(".tags"));
-            }
+        if ($(this).hasAttr("data-tag")) {
+            Tags.loadTagsFromValue($(this).parents(".tags"));
         }
     });
     fn._handle($(this));
