@@ -8,8 +8,8 @@
                 <img src="../images/users/<?= LOGGED_IN_USER['image']; ?>" alt="user-img" class="user-img">
             </button>
             <div class="dropdown-menu">
-                <a href="<?= _DIR_ ?>user/dashboard" class="dropdown-item"><?= svg_icon("user")  ?><span class="text">Go To Site</span></a>
-                <a href="<?= _DIR_ ?>user/logout" class="dropdown-item"><?= svg_icon("sign-out-alt")  ?> <span class="text">Logout</span></a>
+                <a href="<?= _DIR_ ?>user/dashboard" class="dropdown-item"><?= svg_icon("external-link-alt")  ?><span class="text">Go To Site</span></a>
+                <a href="<?= _DIR_ ?>user/logout" class="dropdown-item"><?= svg_icon("logout")  ?> <span class="text">Logout</span></a>
             </div>
         </div>
     </div>

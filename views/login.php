@@ -28,7 +28,7 @@ if (isset($_GET['success'])) {
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-text"><?= svg_icon("envelope")  ?></span>
+                        <span class="input-group-text"><?= svg_icon("mail")  ?></span>
                         <input type="email" name="email" class="form-control" placeholder="Email" required>
                     </div>
                 </div>

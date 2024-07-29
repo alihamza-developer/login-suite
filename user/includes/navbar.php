@@ -9,9 +9,9 @@
             </button>
             <div class="dropdown-menu">
                 <?php if (IS_ADMIN) { ?>
-                    <a href="<?= _DIR_ ?>admin/login" class="dropdown-item"><?= svg_icon("user-cog");  ?> <span class="text">Admin Dashboard</span></a>
+                    <a href="<?= _DIR_ ?>admin/login" class="dropdown-item"><?= svg_icon("external-link-alt");  ?> <span class="text">Admin Dashboard</span></a>
                 <?php } ?>
-                <a href="logout" class="dropdown-item"><?= svg_icon("sign-out-alt"); ?> <span class="text">Logout</span></a>
+                <a href="logout" class="dropdown-item"><?= svg_icon("logout"); ?> <span class="text">Logout</span></a>
             </div>
         </div>
     </div>
