@@ -18,8 +18,11 @@ if (isset($_POST['addIcon'])) {
 
 // Export Icons 
 if (isset($_POST['exportIcons'])) {
+    $type = _POST("type");
+    $AVAILABLE_TYPES = ['json', 'zip'];
+    if (!in_array($type, $AVAILABLE_TYPES)) returnError("Invalid export type");
 
-    $res = $icons_manager->export_icons();
+    $res = $icons_manager->export_icons($type);
     if ($res['status'] !== 'success') die(json_encode($res));
 
     $res = $res['data'];
@@ -41,6 +44,7 @@ if (isset($_POST['importIcons'])) {
 
     $res = $icons_manager->import_icons($file);
 
+    $res['redirect'] = "";
     echo json_encode($res);
 }
 

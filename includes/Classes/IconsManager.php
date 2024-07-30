@@ -71,25 +71,50 @@ class IconsManager
     }
 
     // Export Icons 
-    public function export_icons()
+    public function export_icons($type = "json")
     {
         // Get Icons
         $icons = $this->db->select("icons", "name,prefix,content");
 
-        $icons_data = json_encode($icons, JSON_PRETTY_PRINT);
-        $json_f_name = generate_file_name('json', UPLOAD_PATH);
-        $json_f_path = merge_path(UPLOAD_PATH, $json_f_name);
-        // Create Json File
-        $file = fopen($json_f_path, 'w');
-        fwrite($file, $icons_data);
-        fclose($file);
+        // Loop for edit icon data
+        foreach ($icons as $key => $icon) {
+            $icon['content'] = html_entity_decode(htmlspecialchars_decode($icon['content']));
+            $icons[$key] = $icon;
+        }
 
-        if (!file_exists($json_f_path))
-            return $this->fn->error("Icons can't exported!");
 
+        // Generate filenames
+        $filename = generate_file_name($type, UPLOAD_PATH);
+        $filepath = merge_path(UPLOAD_PATH, $filename);
+
+        // Export Icons in JSON File
+        if ($type == "json") {
+            $icons_data = json_encode($icons, JSON_PRETTY_PRINT);
+            $file = fopen($filepath, 'w');
+            fwrite($file, $icons_data);
+            fclose($file);
+
+            if (!file_exists($filepath))
+                return $this->fn->error("Icons can't exported!");
+        } else if ($type == "zip") {
+
+            $zip = new ZipArchive();
+            $zip->open($filepath, ZipArchive::CREATE);
+
+            foreach ($icons as $icon) {
+                $prefix = $icon['prefix'];
+                $content = $icon['content'];
+                $zip->addFromString("$prefix.svg", $content);
+            }
+
+            $zip->close(); // Close Zip
+        }
+
+
+        // Return Response
         return $this->fn->success([
-            'filename' => $json_f_name,
-            'url' => merge_path(SITE_URL, 'images/uploads', $json_f_name)
+            'filename' => $filename,
+            'url' => merge_path(SITE_URL, 'images/uploads', $filepath)
         ]);
     }
 

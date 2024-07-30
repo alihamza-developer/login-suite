@@ -13,3 +13,6 @@ composer.phar
 
 # env file
 /includes/inc/env.php
+
+/images/uploads
+/images/uploads/*
