@@ -14,9 +14,10 @@ if (isset($_POST['updateEmailTemplate'])) {
     ];
 
     $update = $db->save("email_templates", $dbData, ['name' => $key]);
-    if ($update) {
-        echo success("Template update successfully", ['redirect' => '']);
-    }
+    if ($update) 
+        returnSuccess("Template update successfully", ['redirect' => '']);
+    returnError("Something wen't wrong!");
+    
 }
 
 //Get Template Data
@@ -25,9 +26,9 @@ if (isset($_POST['getTemplateData'])) {
     $email = EMAILS[$key];
     $var = [];
     if ($email) {
-        if (isset($email['variables'])) {
+        if (isset($email['variables']))
             $var =  $email['variables'];
-        }
+        
     }
     echo success($var);
 }

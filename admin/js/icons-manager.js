@@ -12,8 +12,6 @@ fn.cb.editIconModalCB = (modal, e) => {
 
 }
 
-
-
 // Copy Icon Content
 $(document).on("click", ".copy-icon-content", function () {
     let $icon = $(this).parents(".single-icon").first(),
