@@ -16,4 +16,4 @@
 
 4. Run sql file in /includes/sql 
 
-Enjoy! 😁😁
+Enjoy Happy Coding! 😁
