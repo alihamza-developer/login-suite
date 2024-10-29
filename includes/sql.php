@@ -58,3 +58,15 @@ if (_is("install_email_templates_table")) {
         PRIMARY KEY (`id`)
       )");
 }
+
+
+// Icons
+if (_is("install_icons_table")) {
+    $db->query("CREATE TABLE `icons` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `name` varchar(250) NOT NULL,
+                `prefix` varchar(250) NOT NULL,
+                `content` int(11) NOT NULL,
+                PRIMARY KEY (`id`)
+                ) ");
+}
