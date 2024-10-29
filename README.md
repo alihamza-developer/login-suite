@@ -1,4 +1,4 @@
-# Login Suite PHP
+# Login Suite
 1. Create env.php file in includes/inc/
 2. Define the following **variables**
 
