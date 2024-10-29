@@ -2,9 +2,13 @@
 
 class Delete
 {
-    public $actions = [], $callbacks = [], $success, $error, $db;
+    public $actions = [],
+        $callbacks = [],
+        $success,
+        $error,
+        $db;
 
-
+    // Constructor
     public function __construct($data = [])
     {
         global $db;
@@ -15,12 +19,14 @@ class Delete
         $this->success = arr_val($data, "success", $fn);
         $this->error = arr_val($data, "error", $fn);
     }
+
     // on action
     public function on($action, $callback)
     {
         $this->callbacks[$action] = $callback;
     }
-    // set data
+
+    // Set Data
     public function set($action, $table_name = "")
     {
         if (gettype($action) === "array") {
@@ -31,6 +37,7 @@ class Delete
         }
         $this->actions[$action] = $table_name;
     }
+
     // Callback
     private function callback($type)
     {
@@ -40,6 +47,7 @@ class Delete
             if ($success !== false) echo success("Data Deleted Successfully!");
             return true;
         }
+
         if ($type === "error") {
             $error = $this->error;
             $error = $error();
@@ -47,7 +55,8 @@ class Delete
             return true;
         }
     }
-    // Validate delete action
+
+    // Validate Delete Action
     public function validate($action, $data_id)
     {
         if (isset($this->callbacks[$action])) {
@@ -60,6 +69,8 @@ class Delete
         } else
             return true;
     }
+
+    // Init
     public function init()
     {
         if (!isset($_POST['deleteData']) || !isset($_POST['action']) || !isset($_POST['target'])) return false;
@@ -71,6 +82,7 @@ class Delete
             $this->delete($data_id, $table_name, $action);
         }
     }
+
     // Delete Data
     public function delete($data_id, $table_name, $action)
     {
@@ -79,9 +91,9 @@ class Delete
             $delete = $this->db->delete($table_name, ['id' => $data_id]);
             if ($delete) return $this->callback('success');
             return $this->callback('error');
-        } else {
+        } else
             $this->callback("error");
-        }
     }
 }
+
 $_delete = new Delete();
