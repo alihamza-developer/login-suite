@@ -4,7 +4,7 @@ define('SIDEBAR_OPTIONS_ADMIN', [
     [
         'title' => "Dashboard",
         'description' => "View all the statistics and reports",
-        'icon' => 'th-large',
+        'icon' => 'dashboard',
         'url' => 'dashboard',
     ],
     [
@@ -22,7 +22,7 @@ define('SIDEBAR_OPTIONS_ADMIN', [
     [
         'title' => 'Icons Manager',
         'description' => "Manage Site Icons",
-        'icon' => 'th-large',
+        'icon' => 'icons',
         'url' => 'icons-manager'
     ],
     [
@@ -38,7 +38,7 @@ define('SIDEBAR_OPTIONS_USER', [
     [
         'title' => "Dashboard",
         'description' => "View all the statistics and reports",
-        'icon' => 'th-large',
+        'icon' => 'dashboard',
         'url' => 'dashboard',
     ],
     [

@@ -1,6 +1,9 @@
 <?php
 define('_DIR_', '../');
 require_once "inc/database.php";
+
+@mkdir(merge_path(_DIR_, "images/uploads"));
+
 // Check if action is already done
 function _is($type)
 {
