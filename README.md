@@ -14,6 +14,7 @@
 >      composer install
 >      npm install
 
-4. Run sql file in /includes/sql 
+4. Import database.sql file
+5. Run sql file in /includes/sql (optional)
 
 Enjoy Happy Coding! 😁
