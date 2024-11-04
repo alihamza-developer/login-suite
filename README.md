@@ -16,5 +16,7 @@
 
 4. Import database.sql file
 5. Run sql file in /includes/sql (optional)
+6. Goto Admin/Icons Manager import login-system-icons.json for icons management.
+
 
 Enjoy Happy Coding! 😁
