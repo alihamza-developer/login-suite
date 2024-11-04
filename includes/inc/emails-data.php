@@ -12,11 +12,7 @@ $EMAILS_ = [
         'title' => 'Contact Email',
         'variables' => array_merge(['name', 'email', 'subject', 'message']),
         'is_non_user_email' => true
-    ],
-    'assignStore' => [
-        'title' => 'Assign Store',
-        'variables' => array_merge(['store_name', 'store_url', 'contact_page_link']),
-    ],
+    ]
 ];
 
 $common_var = ['site_url', 'site_name', 'login_url'];
