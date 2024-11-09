@@ -324,32 +324,13 @@ $(document).on("click", ".folding-card .card-header", function (e) {
     }
 });
 // #endregion Folding Card
+
 // #region Add Multiple HTML
 $(document).on("click", '[data-toggle="addHTML"]', function () {
-    if (!$(this).hasAttr("data-pick")) return logError("data-pick attribute not found!");
-    let $pick,
-        pickSelector = $(this).data("pick"),
-        radius = $(this).dataVal("pick-radius");
-    if (!radius) radius = $(this).dataVal("radius");
-    if (radius) $pick = $(this).parents(radius).find(pickSelector);
-    else $pick = $(pickSelector);
-    if (!$pick.length) return logError("picking element not found!");
-    $pick = $pick.clone();
-    $pick.removeAttr("id");
-    // drop element
-    let $drop,
-        dropSelector = $(this).data("drop");
-    radius = $(this).dataVal("radius", false);
-    if (radius) {
-        $drop = $(this).parents(radius).first().find(dropSelector);
-    } else {
-        $drop = $(dropSelector);
-    }
-    if ($drop.length < 1) return logError("droping element not found!");
-    // Append Data
-    $pick.removeClass("d-none");
-    $drop.append($pick);
-    fn._handle(this);
+    let variables = $(this).dataVal('variables');
+    if (variables) variables = JSON.parse(variables);
+    else variables = {};
+    dataPickAndDrop($(this), variables);
 });
 // #endregion Add HTML
 // Bootstrap modal callback
@@ -360,24 +341,7 @@ $(document).on("show.bs.modal", ".modal[data-callback]", function (e) {
 $(document).ready(function () {
     $('input.focused').focus();
 });
-// #region Preview image file from file input
-$(document).on("change", ".file-preview-input", function () {
-    let target = $(this).dataVal("target");
-    if (!target) return logError("target not found!");
-    let $target = $(target);
-    if (!$target.length) return logError("target not found!");
-    if (!this.files.length) return logError("file not found!");
-    let file = this.files[0];
 
-    if (!isImageFile(file)) return logError("file is not an image!");
-
-    let reader = new FileReader();
-    reader.onload = function (e) {
-        $target.attr("src", e.target.result);
-    };
-    reader.readAsDataURL(file);
-});
-// #endregion Preview image file from file input
 // Remove Parent
 $(document).on("click", '.removeParent', function () {
     if (!$(this).hasAttr("data-target")) return logError("data-target attribute not found!");
@@ -454,3 +418,83 @@ function refreshTableCount($table) {
         $(this).find("td:first-child").first().text(count++);
     });
 }
+
+// #region Preview image file from file input
+$(document).on("change", ".file-preview-input", function () {
+    let target = $(this).dataVal("target");
+    if (!target) return logError("target not found!");
+    let $target = $(target);
+    if (!$target.length) return logError("target not found!");
+    if (!this.files.length) return logError("file not found!");
+    let file = this.files[0];
+
+    if (!isImageFile(file)) return logError("file is not an image!");
+
+    let reader = new FileReader();
+    reader.onload = function (e) {
+        $target.attr("src", e.target.result);
+    };
+    reader.readAsDataURL(file);
+});
+// #endregion Preview image file from file input
+
+//#region Js Dropdown
+function initJSDropdown() {
+    $(".dropdown.js-dropdown:not([data-launched])").each(function () {
+        let $dropdown = $(this),
+            $menu = $dropdown.find('.dropdown-menu'),
+            $toggle = $dropdown.find("[data-toggle='dropdown']"),
+            $item = $menu.find('.dropdown-item'),
+            $contentArea = $toggle.find('.content-area'),
+            contentType = $dropdown.dataVal("content-type", 'html');
+        $dropdown.attr("data-launched", true);
+
+        // On click on Item
+        $item.on("click", function () {
+            let $this = $(this),
+                value = $this.attr("value"),
+                content = $this[contentType]();
+
+            $dropdown.attr("data-value", value);
+            if ($contentArea.length) $toggle = $contentArea;
+            $toggle[contentType](content);
+            $dropdown.trigger("change");
+            $item.removeAttr("selected");
+            $this.attr("selected", true);
+        });
+
+        // Load Default Value
+        let $selected = $menu.find('.dropdown-item[selected]');
+        $selected.trigger("click");
+    });
+}
+//#endregion Js Dropdown 
+
+//#region Sync Inputs
+$(document).find(".sync-input").each(function () {
+    let target = $(this).dataVal('to'),
+        radius = $(this).dataVal("radius"),
+        listener = $(this).dataVal("listener", 'input');
+    if (!target) return true;
+
+    let $target = $(target);
+    if (radius) $target = $(radius).find(target);
+    if (!$target.length) return false;
+
+    // Sync to target
+    $(this).on(listener, function () {
+        let value = $(this).val(),
+            targetListener = $target.dataVal("listener", 'input');
+        $target.val(value);
+        // $target.trigger(targetListener);
+    });
+    // Sync to from 
+    $target.on($target.dataVal("listener", 'change'), function () {
+        let value = $(this).val(),
+            $from = $($(this).dataVal("from"));
+        if (!$from.length) return false;
+        $from.val(value);
+        $from.trigger(listener)
+    });
+});
+//#endregion Sync Inputs 
