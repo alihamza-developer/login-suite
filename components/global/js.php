@@ -32,8 +32,6 @@ assets_file([
     "Functions/prototype.fn.js",
     "Functions/jquery.fns.js",
     "Functions/forms.js",
-    "IconsManager/IconsManager.js",
-    "IconsManager/index.js",
 ], 'js', _DIR_ . "js");
 
 assets_file($JS_FILES_, 'js', "js");
