@@ -14,9 +14,6 @@
 >      composer install
 >      npm install
 
-4. Import database.sql file
-5. Run sql file in /includes/sql (optional)
-6. Goto Admin/Icons Manager import login-system-icons.json for icons management.
-
+4. Run sql file in /includes/sql (optional)
 
 Enjoy Happy Coding! 😁
