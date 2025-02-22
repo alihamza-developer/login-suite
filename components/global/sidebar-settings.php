@@ -4,7 +4,7 @@ define('SIDEBAR_OPTIONS_ADMIN', [
     [
         'title' => "Dashboard",
         'description' => "View all the statistics and reports",
-        'icon' => 'dashboard',
+        'icon' => 'th-large',
         'url' => 'dashboard',
     ],
     [
@@ -20,15 +20,9 @@ define('SIDEBAR_OPTIONS_ADMIN', [
         'url' => 'email-templates',
     ],
     [
-        'title' => 'Icons Manager',
-        'description' => "Manage Site Icons",
-        'icon' => 'icons',
-        'url' => 'icons-manager'
-    ],
-    [
         'title' => "Profile Setting",
         'description' => "Manage your profile settings",
-        'icon' => 'settings',
+        'icon' => 'user-cog',
         'url' => _DIR_ . 'user/setting',
     ],
 ]);
@@ -38,13 +32,13 @@ define('SIDEBAR_OPTIONS_USER', [
     [
         'title' => "Dashboard",
         'description' => "View all the statistics and reports",
-        'icon' => 'dashboard',
+        'icon' => 'th-large',
         'url' => 'dashboard',
     ],
     [
         'title' => "Profile Setting",
         'description' => "Manage your profile settings",
-        'icon' => 'settings',
+        'icon' => 'user-cog',
         'url' => _DIR_ . 'user/setting',
     ],
 ]);

@@ -59,7 +59,7 @@ require_once "includes/head.php";
                                 <td>
                                     <div class=" align-center child-el-margin-x">
                                         <input type="checkbox" class="fancy-checkbox jx-req-element" data-submit='{"user_id": "<?= $user['id'] ?>"}' data-target="users" name="modifyUserIsAdmin" <?= $user['is_admin'] == "1" ? "checked" : "" ?>>
-                                        <button class="no-btn-styles text-danger cp delete-btn" title="Delete" data-target="<?= $user['id']; ?>" data-action="user"><?= svg_icon("trash")  ?></button>
+                                        <button class="no-btn-styles text-danger cp delete-btn" title="Delete" data-target="<?= $user['id']; ?>" data-action="user"><?= svg_icon("trash-alt")  ?></button>
                                     </div>
                                 </td>
                             </tr>

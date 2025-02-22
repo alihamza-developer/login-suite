@@ -5,9 +5,9 @@ error_reporting(E_ALL);
 
 require_once "env.php";
 
-define("SITE_NAME", "LOGIN SYSTEM");
-define("SITE_PHONE", "+92 302 4018721");
-define("SITE_EMAIL", "alihamza6545640@gmail.com");
+define("SITE_NAME", "LOGIN SUITE");
+define("SITE_PHONE", "+923286503261");
+define("SITE_EMAIL", "alihamzaofficial3536@gmail.com");
 define("CONTACT_EMAIL", SITE_EMAIL);
 
 
@@ -24,7 +24,6 @@ define('ASSETS_V', "?v=" . (ENV === 'prod' ? '1.0.0' : time()));
 define('IMAGES_EXTS', ['jpg', 'png', 'jpeg', 'gif']);
 
 @define('TABLES_WITHOUT_UID', [
-    'icons',
     'email_templates',
     'meta_data'
 ]);
