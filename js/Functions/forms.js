@@ -341,78 +341,92 @@ function appendError(parent, err, el) {
 // Edit Table Info
 $(document).on("click", ".editTableInfo", function (e) {
     e.preventDefault();
-    if (!this.hasAttribute("data-target")) return false;
-    let target = $($(this).attr("data-target"));
-    if (target.length < 1) return false;
-
+    let target = $(this).dataVal("target");
+    if (!target) return false;
+    let $target = $(target);
+    if (!$target.length) return false;
     let parent = $(this).parents("tr").first(),
-        inputs = target.find("input[name],textarea[name], select[name], .tinymce-inline-editor, .multi-select");
-    l(inputs)
-    inputs.each(function () {
-        let name = "";
-        if ($(this).tagName() == "div") name = $(this).attr("id");
-        else name = $(this).attr("name");
+        inputs = $target.find("input[name],textarea[name], select[name], .tinymce-inline-editor, .multi-select");
+    inputs = Array.from(inputs);
 
-        let td = parent.find(`td[data-name="${name}"]`);
-        if (!td.length) return false;
-        let value = td.attr('data-value');
+    // Loop
+    for (let i = 0; i < inputs.length; i++) {
+        let $input = $(inputs[i]),
+            tagName = $input.tagName,
+            inputType = $input.attr('type'),
+            name = $input.attr(tagName == 'div' ? "id" : 'name'),
+            td = parent.find(`td[data-name="${name}"]`);
 
-
+        if (!td.length) continue;
+        let value = td.dataVal('value');
 
         // If is input is tinymce
-        if ($(this).hasClass("tinymce-inline-editor") && window.tinymce) {
-            let editor = tinymce.get($(this).attr("id"));
-            l("ok", editor)
+        if ($input.hasClass("tinymce-inline-editor") && window.tinymce) {
+            let editor = tinymce.get($input.attr("id"));
             if (editor) editor.setContent(value);
         }
 
-        if ($(this).hasClass("multi-select")) {
+        // If its SS Select Box
+        if ($input.hasClass("multi-select")) {
             let values = JSON.parse(value);
-            target.find(`.single-item input`).each(function () {
+            $target.find(`.single-item input`).each(function () {
                 $(this).prop("checked", values.includes($(this).val()));
             });
-        } else {
-            if ($(this).tagName() == "div") $(this).html(value);
-            else {
-
-                // If input type is datetime-local
-                if ($(this).attr("type") == "datetime-local") {
-                    value = value.replace(" ", "T");
-                    value = value.substr(0, value.length - 2) + "00";
-                }
-
-                if ($(this).attr("type") !== "file") {
-
-                    if ($(this).attr("type") == "checkbox") {
-                        $(this).prop("checked", value == "true");
-                    } else if ($(this).get(0).tagName === 'SELECT') {
-
-                        let isMultiple = $(this).hasAttr("multiple");
-
-                        // If multiple select
-                        if (isMultiple) value = isJson(value) ? JSON.parse(value) : value.split(",");
-                        else value = [value];
-
-                        $(this).find("option").each(function () {
-                            $(this).prop("selected", value.includes($(this).val()));
-                        });
-
-                        if ($(this).hasClass("ss-select"))
-                            $(this).get(0).dispatchEvent(new Event("change"));
-
-                    } else if ($(this).attr("type") === "radio") {
-                        if ($(this).val() == value) $(this).prop('checked', true);
-
-                    } else $(this).val(value);
-                }
-            }
+            continue;
         }
 
-
-        if ($(this).hasAttr("data-tag")) {
-            Tags.loadTagsFromValue($(this).parents(".tags"));
+        // If its DIV
+        if (tagName == "div") {
+            $input.html(value);
+            continue;
         }
-    });
+
+        // If input type is datetime-local
+        if (inputType == "datetime-local") {
+            value = value.replace(" ", "T");
+            value = value.substr(0, value.length - 2) + "00";
+        }
+
+        // File TODO:
+        if (inputType === "file") continue;
+
+        // Checkbox
+        if (inputType == "checkbox") {
+            $input.prop("checked", value == "true");
+            continue;
+        }
+
+        // Select Box
+        if (tagName === 'select') {
+            let isMultiple = $input.hasAttr("multiple");
+
+            // If multiple select
+            if (isMultiple) value = isJson(value) ? JSON.parse(value) : value.split(",");
+            else value = [value];
+
+            $input.find("option").each(function () {
+                $(this).prop("selected", value.includes($input.val()));
+            });
+
+            if ($input.hasClass("ss-select"))
+                $input.get(0).dispatchEvent(new Event("change"));
+            continue;
+        }
+
+        // Radio
+        if (inputType === "radio") {
+            if ($input.val() == value)
+                $input.prop('checked', true);
+            continue;
+        }
+
+        $input.val(value);
+
+        // Load Tags
+        if ($input.hasAttr("data-tag"))
+            Tags.loadTagsFromValue($input.parents(".tags"));
+    }
+
     fn._handle($(this));
 });
 // Delete Data from table
